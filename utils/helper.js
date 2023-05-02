@@ -12,8 +12,7 @@ const messages = {
   FOUND: "login successfully",
   UNAUTH: "User not authenticated",
   INVALID_TOKEN: "Invalid token",
-  FORBIDDEN:"user not authorized to access this page"
-
+  FORBIDDEN: "user not authorized to access this page",
 };
 
 //centralizing statusCodes
@@ -24,6 +23,7 @@ const statusCodes = {
   COMMON_ERROR: 500,
   NOT_FOUND: 404,
   UNAUTH: 401,
+  FORBIDDEN:403
 };
 
 /**

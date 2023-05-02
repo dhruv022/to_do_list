@@ -3,6 +3,7 @@ const todoListController = require("../controller/todoListController");
 const validations = require("../validations/index");
 const validationMiddleware = require("../middleware/validation.middleware");
 const tokenMiddleware = require("../middleware/auth");
+const { createGuard } = require("../middleware/guard");
 
 /**
  *
@@ -29,7 +30,7 @@ router.get(
   ],
   todoListController.getTodoList
 );
-router.get("/", todoListController.getAllListData);
+// router.get("/", createGuard([2, 3]), todoListController.getAllListData);
 router.put(
   "/:id",
   [

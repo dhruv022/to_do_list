@@ -26,7 +26,7 @@ const loginUser = async (body) => {
       const hashPassword = await bcrypt.hash(body.password, salt);
       if (hashPassword == checkExistingUser[0][0].password) {
         const token = jwt.sign(
-          { user_id: checkExistingUser[0][0].id , user_role_id: checkExistingUser[0][0].roleId},
+          { user_id: checkExistingUser[0][0].id},
           process.env.TOKEN_KEY,
         );
         return {
@@ -87,9 +87,10 @@ const createUser = async (body) => {
  * @returns
  */
 const getUser = async (params) => {
+  console.log(params,'-- params --')
   try {
     const checkExistingUser = await connection.raw(
-      `SELECT * FROM users WHERE id=?`,
+      `SELECT * FROM users JOIN user_roles ON users.roleId = user_roles.id WHERE users.id=?`,
       [params.id]
     );
     if (checkExistingUser[0].length) {
@@ -104,6 +105,7 @@ const getUser = async (params) => {
           password: checkExistingUser[0][0].password,
           phoneNumber: checkExistingUser[0][0].phoneNumber,
           status: checkExistingUser[0][0].status,
+          roleName: checkExistingUser[0][0].roleName
         },
       };
     } else {
@@ -162,7 +164,7 @@ const updateUser = async (params, body) => {
     if (checkExistingUser[0].length) {
       if (body.hasOwnProperty("status")) {
         await connection.raw(
-          `UPDATE users SET firstName= "${body.firstName}", lastName="${body.lastName}", password="${hashPassword}", saltValue="${salt}", phoneNumber="${body.phoneNumber}", status="${body.status}", "roleId="${body.roleId}" WHERE id="${params.id}"`
+          `UPDATE users SET firstName= "${body.firstName}", lastName="${body.lastName}", password="${hashPassword}", saltValue="${salt}", phoneNumber="${body.phoneNumber}", status="${body.status}", roleId="${body.roleId}" WHERE id="${params.id}"`
         );
       } else {
         await connection.raw(
@@ -178,6 +180,7 @@ const updateUser = async (params, body) => {
           password: body.password,
           phoneNumber: body.phoneNumber,
           status: body.status,
+          roleId : body.roleId
         },
       };
     } else {

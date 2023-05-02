@@ -6,10 +6,10 @@ const validations = require("../validations/index");
 const userControllers = require("../controller/usersController");
 const validationMiddleware = require("../middleware/validation.middleware");
 const tokenMiddleware = require("../middleware/auth");
-// const { createGuard } = require('../middleware/guard');
+const { roleGuard } = require("../middleware/guard");
+// const { createGuard } = require("../middleware/guard");
 
 /**
- *
  * 1st argument as path
  * 2nd argument in middlewares
  * 3rd controller which handles the request/response
@@ -32,7 +32,12 @@ router.get(
   ],
   userControllers.getUser
 );
-router.get("/", userControllers.getAllUsers);
+router.get(
+  "/",
+  tokenMiddleware,
+  roleGuard(["SUPER_ADMIN", "ADMIN"]),
+  userControllers.getAllUsers
+);
 router.put(
   "/:id",
   [
@@ -53,8 +58,3 @@ router.delete(
 );
 
 module.exports = router;
-
-
-// users.js
-
-

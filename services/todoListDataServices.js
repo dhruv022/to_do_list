@@ -1,6 +1,6 @@
 const connection = require("../config/db.config");
 const { statusCodes, messages } = require("../utils/helper");
-
+const tokenValue = require("../middleware/guard");
 /**
  * Purpose: Function to create a todoList.
  * @param {*} params
@@ -9,7 +9,7 @@ const { statusCodes, messages } = require("../utils/helper");
 const createList = async (body) => {
   try {
     await connection.raw(
-      `INSERT INTO to_do_list_data (title, description, status ) VALUES ("${body.title}","${body.description}","${body.status}")`
+      `INSERT INTO to_do_list_data (userId, title, description, status ) VALUES ("${body.userId}","${body.title}","${body.description}","${body.status}")`
     );
     return {
       statusCode: statusCodes.SUCCESS,
