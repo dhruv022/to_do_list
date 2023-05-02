@@ -9,30 +9,37 @@ const userService = require("../services/usersServices");
  * @returns
  */
 const roleGuard = (allowedRoles) => {
-  return async function (req, res, next) {
-    if (!req.user.user_id) {
-      // throw erro user not found
-      return res.json({
-        status: statusCodes.UNAUTH,
-        message: messages.UNAUTH,
-      });
-    }
-    console.log(req.user);
+  try {
+    return async function (req, res, next) {
+      if (!req.user.user_id) {
+        // throw erro user not found
+        return res.json({
+          status: statusCodes.UNAUTH,
+          message: messages.UNAUTH,
+        });
+      }
+      console.log(req.user);
 
-    req.user["id"] = req.user.user_id;
-    const userDetails = await userService.getUser(req.user).catch((error) => {
-      throw error;
-    });
-    console.log(userDetails, "---- details--");
-    if (!allowedRoles.includes(userDetails.data.roleName)) {
-      console.log(allowedRoles[0]);
-      return res.json({
-        status: statusCodes.FORBIDDEN,
-        message: messages.FORBIDDEN,
+      req.user["id"] = req.user.user_id;
+      const userDetails = await userService.getUser(req.user).catch((error) => {
+        throw error;
       });
-    }
-    next();
-    // if(allowedRoles == userDetails.)
-  };
+      console.log(userDetails, "---- details--");
+      if (!allowedRoles.includes(userDetails.data.roleName)) {
+        console.log(allowedRoles[0]);
+        return res.json({
+          status: statusCodes.FORBIDDEN,
+          message: messages.FORBIDDEN,
+        });
+      }
+      next();
+      // if(allowedRoles == userDetails.)
+    };
+  } catch {
+    return res.json({
+      status: statusCodes.UNAUTH,
+      message: messages.UNAUTH,
+    });
+  }
 };
 module.exports = { roleGuard };

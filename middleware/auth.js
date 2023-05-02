@@ -19,7 +19,7 @@ const verifyToken = (req, res, next) => {
         if (err) {
           return res.json({
             status: statusCodes.UNAUTH,
-            message: messages.INVALID_TOKEN,
+            message: messages.UNAUTH,
           });
         } else {
           console.log(data);
@@ -29,7 +29,10 @@ const verifyToken = (req, res, next) => {
       });
     }
   } catch (err) {
-    console.log(err);
+    return res.json({
+      status: statusCodes.UNAUTH,
+      message: messages.UNAUTH,
+    });
   }
 };
 
