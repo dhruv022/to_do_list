@@ -30,7 +30,12 @@ router.get(
   ],
   todoListController.getTodoList
 );
-router.get("/",tokenMiddleware, roleGuard(["ADMIN", "SUPER_ADMIN"]), todoListController.getAllListData);
+router.get(
+  "/",
+  tokenMiddleware,
+  roleGuard(["ADMIN", "SUPER_ADMIN"]),
+  todoListController.getAllListData
+);
 router.put(
   "/:id",
   [
