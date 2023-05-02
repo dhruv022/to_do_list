@@ -5,8 +5,8 @@ const userService = require("../services/usersServices");
 /**
  * Routing Guard for compare roles of which token is inserted with roles in database
  * Throw error if user want to access details and give data when token of Admin or SuperAdmin gets hit
- * @param {*} allowedRoles 
- * @returns 
+ * @param {*} allowedRoles
+ * @returns
  */
 const roleGuard = (allowedRoles) => {
   return async function (req, res, next) {

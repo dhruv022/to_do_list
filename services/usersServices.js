@@ -26,14 +26,14 @@ const loginUser = async (body) => {
       const hashPassword = await bcrypt.hash(body.password, salt);
       if (hashPassword == checkExistingUser[0][0].password) {
         const token = jwt.sign(
-          { user_id: checkExistingUser[0][0].id},
-          process.env.TOKEN_KEY,
+          { user_id: checkExistingUser[0][0].id },
+          process.env.TOKEN_KEY
         );
         return {
           statusCode: statusCodes.SUCCESS,
           message: messages.FOUND,
-          token:token,
-          id: checkExistingUser[0][0].id
+          token: token,
+          id: checkExistingUser[0][0].id,
         };
       }
     }
@@ -66,7 +66,7 @@ const createUser = async (body) => {
     }
     if (body.hasOwnProperty("status")) {
       await connection.raw(
-        `INSERT INTO users (firstName, lastName, email, password, phoneNumber, saltValue, status, roleId) VALUES("${body.firstName}","${body.lastName}","${body.email}","${hashPassword}","${body.phoneNumber}","${salt}","${body.status}","${body.roleId}")`,
+        `INSERT INTO users (firstName, lastName, email, password, phoneNumber, saltValue, status, roleId) VALUES("${body.firstName}","${body.lastName}","${body.email}","${hashPassword}","${body.phoneNumber}","${salt}","${body.status}","${body.roleId}")`
       );
       return successResponse(statusCodes.SUCCESS, messages.CREATED);
     } else {
@@ -75,7 +75,7 @@ const createUser = async (body) => {
       );
       return successResponse(statusCodes.SUCCESS, messages.CREATED);
     }
-     } catch (error) {
+  } catch (error) {
     return errorResponse(statusCodes.BAD_REQUEST, messages.ALREADY_EXIST);
   }
 };
@@ -87,7 +87,7 @@ const createUser = async (body) => {
  * @returns
  */
 const getUser = async (params) => {
-  console.log(params,'-- params --')
+  console.log(params, "-- params --");
   try {
     const checkExistingUser = await connection.raw(
       `SELECT * FROM users JOIN user_roles ON users.roleId = user_roles.id WHERE users.id=?`,
@@ -105,7 +105,7 @@ const getUser = async (params) => {
           password: checkExistingUser[0][0].password,
           phoneNumber: checkExistingUser[0][0].phoneNumber,
           status: checkExistingUser[0][0].status,
-          roleName: checkExistingUser[0][0].roleName
+          roleName: checkExistingUser[0][0].roleName,
         },
       };
     } else {
@@ -180,7 +180,7 @@ const updateUser = async (params, body) => {
           password: body.password,
           phoneNumber: body.phoneNumber,
           status: body.status,
-          roleId : body.roleId
+          roleId: body.roleId,
         },
       };
     } else {
@@ -231,5 +231,3 @@ module.exports = {
   deleteUser,
   loginUser,
 };
-
-

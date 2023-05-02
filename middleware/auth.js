@@ -3,10 +3,10 @@ const { statusCodes, messages } = require("../utils/helper");
 
 /**
  * Authenticate user and token if token is invalid or damaged then it throw error.
- * else pass to the guard. 
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
+ * else pass to the guard.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
  */
 const verifyToken = (req, res, next) => {
   try {
