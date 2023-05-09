@@ -16,7 +16,6 @@ router.post(
   [
     validations.todoListDataValidations.createList,
     validations.todoListDataValidations.checkRoleStatus,
-    tokenMiddleware,
     validationMiddleware.handleValidations,
   ],
   todoListController.createList
@@ -41,7 +40,6 @@ router.put(
   [
     validations.todoListDataValidations.createList,
     validations.todoListDataValidations.checkRoleStatus,
-    tokenMiddleware,
     validationMiddleware.handleValidations,
   ],
   todoListController.updateTodoListData
@@ -50,7 +48,6 @@ router.delete(
   "/:id",
   [
     validations.todoListDataValidations.getTodoList,
-    tokenMiddleware,
     validationMiddleware.handleValidations,
   ],
   todoListController.deleteTodoListData

@@ -62,20 +62,32 @@ const createUser = async (body) => {
       [body.email]
     );
     if (checkExistingUser[0].length) {
+      console.log("inside check existing");
       return errorResponse(statusCodes.BAD_REQUEST, messages.ALREADY_EXIST);
     }
-    if (body.hasOwnProperty("status")) {
-      await connection.raw(
-        `INSERT INTO users (firstName, lastName, email, password, phoneNumber, saltValue, status, roleId) VALUES("${body.firstName}","${body.lastName}","${body.email}","${hashPassword}","${body.phoneNumber}","${salt}","${body.status}","${body.roleId}")`
-      );
-      return successResponse(statusCodes.SUCCESS, messages.CREATED);
-    } else {
-      await connection.raw(
-        `INSERT INTO users (firstName, lastName, email, password, phoneNumber, saltValue,roleId) VALUES("${body.firstName}","${body.lastName}","${body.email}","${hashPassword}","${body.phoneNumber}","${salt}","${body.roleId}")`
-      );
+    // if (body.hasOwnProperty("status")) {
+    //   await connection.raw(
+    //     `INSERT INTO users (firstName, lastName, email, password, phoneNumber, saltValue, status) VALUES("${body.firstName}","${body.lastName}","${body.email}","${hashPassword}","${body.phoneNumber}","${salt}","${body.status}")`
+    //   );
+    //   return successResponse(statusCodes.SUCCESS, messages.CREATED);
+    // } 
+    // else 
+    else {
+      if (body.hasOwnProperty("roleId")) {
+        await connection.raw(
+          `INSERT INTO users (firstName, lastName, email, password, roleId , phoneNumber, saltValue) VALUES("${body.firstName}","${body.lastName}","${body.email}","${hashPassword}","${body.roleId}","${body.phoneNumber}","${salt}")`
+        );
+      }
+      else {
+        await connection.raw(
+          `INSERT INTO users (firstName, lastName, email, password, phoneNumber, saltValue) VALUES("${body.firstName}","${body.lastName}","${body.email}","${hashPassword}","${body.phoneNumber}","${salt}")`
+        );
+
+      }
       return successResponse(statusCodes.SUCCESS, messages.CREATED);
     }
   } catch (error) {
+    console.log(error);
     return errorResponse(statusCodes.BAD_REQUEST, messages.ALREADY_EXIST);
   }
 };
@@ -127,7 +139,7 @@ const getUser = async (params) => {
  */
 const getAllUsers = async (params) => {
   try {
-    const allUsers = await connection.raw(`SELECT * FROM users`);
+    const allUsers = await connection.raw(`SELECT * FROM users inner join user_roles on users.roleId = user_roles.Id `);
     if (allUsers[0].length) {
       return {
         statusCode: statusCodes.SUCCESS,

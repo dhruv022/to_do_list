@@ -46,15 +46,6 @@ const createUser = [
     .withMessage(
       "Password should be of min 8 characters long and max 16 characters long"
     ),
-  body("roleId")
-    .trim()
-    .escape()
-    .notEmpty()
-    .withMessage("roleId is required")
-    .isInt()
-    .withMessage("roleId should be an integer")
-    .isIn([1, 2, 3])
-    .withMessage("roleId should be 1,2,3"),
 ];
 
 //declaring required validations for updateUser api
@@ -94,15 +85,6 @@ const updateUser = [
     .withMessage(
       "Password should be of min 8 characters long and max 16 characters long"
     ),
-  body("roleId")
-    .trim()
-    .escape()
-    .notEmpty()
-    .withMessage("roleId is required")
-    .isInt()
-    .withMessage("roleId should be an integer")
-    .isIn([1, 2, 3])
-    .withMessage("roleId should be 1,2,3"),
 ];
 
 module.exports = {

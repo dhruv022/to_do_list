@@ -8,6 +8,7 @@ const validationMiddleware = require("../middleware/validation.middleware");
  * 2nd argument in middlewares
  * 3rd controller which handles the request/response
  */
+
 router.post(
   "/",
   [

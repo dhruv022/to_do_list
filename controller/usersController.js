@@ -37,6 +37,7 @@ const createUser = async (req, res) => {
     return generateResponse(res, statusCodes.BAD_REQUEST, messages.BAD_REQUEST);
   }
   const result = await userService.createUser(req.body);
+  console.log(result.message);
   return generateResponse(res, statusCodes.SUCCESS, result.message);
 };
 

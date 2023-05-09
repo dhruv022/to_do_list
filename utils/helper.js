@@ -23,7 +23,7 @@ const statusCodes = {
   COMMON_ERROR: 500,
   NOT_FOUND: 404,
   UNAUTH: 401,
-  FORBIDDEN:403
+  FORBIDDEN: 403
 };
 
 /**

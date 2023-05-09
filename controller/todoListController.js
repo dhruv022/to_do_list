@@ -31,6 +31,7 @@ const createList = async (req, res) => {
  * @returns
  */
 const getTodoList = async (req, res) => {
+  console.log("hghyh",req,"sadas");
   try {
     const todoListData = await todoListDataServices
       .getTodoList(req.params)
@@ -42,6 +43,8 @@ const getTodoList = async (req, res) => {
       message: todoListData.message,
       data: todoListData.data,
     });
+    console.log(todoListData);
+    
     // res.send('response')
   } catch (error) {
     res.send(error);

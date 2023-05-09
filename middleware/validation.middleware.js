@@ -14,7 +14,7 @@ const handleValidations = (req, res, next) => {
       return res.send(errors.array());
     }
     next();
-  } catch (err) {}
+  } catch (err) { }
 };
 
 module.exports = { handleValidations };

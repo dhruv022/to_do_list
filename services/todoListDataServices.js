@@ -28,22 +28,16 @@ const createList = async (body) => {
 const getTodoList = async (params) => {
   try {
     const checkExistingData = await connection.raw(
-      `SELECT * FROM to_do_list_data WHERE id=?`,
+      `SELECT * FROM to_do_list_data WHERE userId = ?`,
       [params.id]
     );
     if (checkExistingData[0].length) {
       return {
         statusCode: statusCodes.SUCCESS,
         message: messages.SUCCESS,
-        data: {
-          id: checkExistingData[0][0].id,
-          title: checkExistingData[0][0].title,
-          description: checkExistingData[0][0].description,
-          status: checkExistingData[0][0].status,
-          createdAt: checkExistingData[0][0].createdAt,
-          updatedAt: checkExistingData[0][0].updatedAt,
-        },
+        data: checkExistingData[0],
       };
+
     } else {
       throw {
         statusCode: statusCodes.NOT_FOUND,
